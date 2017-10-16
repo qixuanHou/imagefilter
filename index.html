@@ -1,0 +1,288 @@
+<html>
+<head>
+<title>Computer Vision Project</title>
+<link href='http://fonts.googleapis.com/css?family=Nunito:300|Crimson+Text|Droid+Sans+Mono' rel='stylesheet' type='text/css'>
+<link rel="stylesheet" title="Default" href="styles/github.css">
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.3.2/jquery.min.js"></script>  
+
+<link rel="stylesheet" href="highlighting/styles/default.css">
+<script src="highlighting/highlight.pack.js"></script>
+
+<style type="text/css">
+body {
+	margin: 0px;
+	width: 100%;
+	font-family: 'Crimson Text', serif;
+	font-size: 20px;
+	background: #fcfcfc;
+}
+h1 {
+	font-family: 'Nunito', sans-serif;
+	font-weight: normal;
+	font-size: 28px;
+	margin: 25px 0px 0px 0px;
+	text-transform: lowercase;
+
+}
+
+h2 {
+	font-family: 'Nunito', sans-serif;
+	font-weight: normal;
+	font-size: 32px;
+	margin: 15px 0px 35px 0px;
+	color: #333;	
+	word-spacing: 3px;
+}
+
+h3 {
+	font-family: 'Nunito', sans-serif;
+	font-weight: normal;
+	font-size: 26px;
+	margin: 10px 0px 10px 0px;
+	color: #333;
+	word-spacing: 2px;
+}
+h4 {
+	font-family: 'Nunito', sans-serif;
+	font-weight: normal;
+	font-size: 22px;
+	margin: 10px 0px 10px 0px;
+	color: #333;
+	word-spacing: 2px;
+}
+
+h5 {
+	font-family: 'Nunito', sans-serif;
+	font-weight: normal;
+	font-size: 18px;
+	margin: 10px 0px 10px 0px;
+	color: #111;
+	word-spacing: 2px;
+}
+
+p, li {
+	color: #444;
+}
+
+a {
+	color: #DE3737;
+}
+
+.container {
+	margin: 0px auto 0px auto;
+	width: 960px;
+}
+
+#header {
+	background: #333;
+	width: 100%;
+}
+
+#headersub {
+	color: #ccc;
+	width: 960px;
+	margin: 0px auto 0px auto;
+	padding: 20px 0px 20px 0px;
+}
+
+.chart {
+	width: 480px;
+}
+.lol {
+	font-size: 16px;
+	color: #888;
+	font-style: italic;
+}
+.sep {
+	height: 1px;
+	width: 100%;
+	background: #999;
+	margin: 20px 0px 20px 0px;
+}
+.footer{
+	font-size: 16px;
+}
+.latex {
+	width: 100%;
+}
+
+.latex img {
+	display: block;
+	margin: 0px auto 0px auto;
+}
+
+pre {
+	font-family: 'Droid Sans Mono';
+	font-size: 14px;
+}
+
+td img {
+  vertical-align: middle;
+}
+
+#contents a {
+}
+</style>
+<script type="text/javascript">
+    hljs.initHighlightingOnLoad();
+</script>
+</head>
+<body>
+<div id="header" >
+<div id="headersub">
+<h1><span style="color: #DE3737">Qixuan Hou</span></h1>
+</div>
+</div>
+<div class="container">
+
+<h2>Project 1: Image Filtering and Hybrid Images</h2>
+
+<div style="float: right; padding: 20px">
+<img src="identity_image.jpg" />
+<p style="font-size: 14px">The input image of the function my_imfilter</p>
+</div>
+
+<p> 	The final goal of the project is to produce hybrid images. We applied the idea of image filtering to achieve the final goal. my_imfilter(image, filter) is the function for image filtering, which takes two arguments, image and filter. The general steps of image filtering are:
+
+</p>
+
+<ol>
+<li>get size of image and filter for later usages;</li>
+<li>separate colors into three different matrices aO, bO, cO so that we can apply filter to colors individually;
+</li>
+<li>pad the matrices aO, bO, cO so that the filter can be applied at the boundary. I choose the simplest version, padding the input image with zeros. Numbers of rows and columns are need to insert to the image are calculated. Since we always have odd sizes, we can easily have nRow = (rFilter - 1)/2 as the number of rows I need to add at the top and the bottom of the image, and have nCol = (cFilter - 1)/2 as the number of columns I need to add at the right and the left of the image. Matrix manipulation in Matlab is used to insert zeros to the matrices, aO, bO, cO.
+</li>
+<li>apply the filter to the matrices aO, bO, cO. I have a helper function named, getSum(matrix, filter, cFilter,rFilter, cImage, rImage, image) to do the computation and put the sum of the multiplications back into the correct index. cFilter is the number of columns in the filter, rFilter is the number of rows in the filter, cImage is the number of columns in the filter, and rImage is the number of row in the filter. I split the step into three sub-steps. 
+	<ol>
+		<li>loop over image. I need to apply the filter to every index in matrices, aO, bO, cO. Therefore, I start with a double for loop over rows and columns of the image. 
+
+		</li>
+		<li>calculate sum of the multiplication. For each iteration in the loop above, I need to calculate the sum of the multiplications between every index in filter and corresponding index in the image. Thus, I have another double for loop to loop over row and columns of the filter.  
+		</li>
+		<li>
+cut the matrices to reduce to the original size. I am supposed to return the image as in the original size. I remove the paddings I add at the beginning. 
+		</li>
+	</ol>
+</li>
+</ol>
+
+
+
+<h3>Results of Image Filtering</h3>
+
+<!-- 
+<h2>Example of code with highlighting</h2>
+The javascript in the <code>highlighting</code> folder is configured to do syntax highlighting in code blocks such as the one below.<p>
+
+<pre><code>
+%example code
+for i = 1:length(offset)
+    source = imread(sprintf('%s/source_%02d.jpg',data_dir,i));
+    mask   = imread(sprintf('%s/mask_%02d.jpg',data_dir,i));
+    target = imread(sprintf('%s/target_%02d.jpg',data_dir,i));
+
+</code></pre>
+ -->
+<!-- <h3>Results in a table</h3> -->
+
+<table border=1>
+<tr>
+<td>
+<img src="identity_image.jpg" width="33%"/>
+<img src="blur_image.jpg"  width="33%"/>
+<img src="large_blur_image.jpg" width="33%"/>
+
+</td>
+</tr>
+<tr>
+
+</tr>
+<tr>
+<td>
+<img src="laplacian_image.jpg" width="33%"/>
+<img src="high_pass_image.jpg" width="33%"/>
+<img src="sobel_image.jpg"  width="33%"/>
+
+</td>
+</tr>
+
+</table>
+
+<p> I will describe each image and their filters. I will start from top left and go to the right and then I will go to next row and also start from left to right. 
+<ol>
+<li>
+The first image is identical to the input image, because we applied identity_filter = [0 0 0; 0 1 0; 0 0 0]. Since there is only one "1" in the center of the filter matrix, the sum of the multiplications in this case will be the original value in the image in that index.
+</li>
+<li>
+The second image removes some high frequencies in the image by getting the average values around a 3*3 matrix as the filter.
+
+</li>
+<li>We directly apply Gaussian blurs for the third image. This image is much more blurry than the previous one.
+
+</li>
+<li>The fourth image is applied with sobel filter, which always deals with edge detection. The filter matrix we have is [-1 0 1; -2 0 2; -1 0 1]. The middle column is all zeros and we have positive numbers on the right and the negative numbers on the left. The filter generates the image with clear and sharp vertical edges. If we have filter as [-1 -2 -1; 0 0 0; 1 2 1], the filtering image will be with clear and sharp horizontal edges.
+
+</li>
+<li>The fifth image utilizes another algorithm to do edge detection, named laplacian filter. The filter does not clearly differentiate vertical edges and horizontal edges.
+
+</li>
+<li>The sixth image is a high pass image by simply subtracting the low frequency content from the original image.
+</li>
+</ol>
+</p>
+
+<h3>Results of Hybrid Image</h3>
+
+<table border=1>
+<tr>
+<td>
+<img src="einstein.bmp" width="49%"/>
+<img src="marilyn.bmp"  width="49%"/>
+
+</td>
+</tr>
+
+<tr>
+<td>
+<img src="1_low_frequencies.jpg" width="49%"/>
+<img src="1_high_frequencies.jpg" width="49%"/>
+
+</td>
+</tr>
+
+
+
+
+</table>
+<img src="1_hybrid_image_scales.jpg" width="49%"/>
+
+<p>We have Einstein as low frequency image (blur filter) and Marilyn as high frequency (subtract blur image from the original image). The edges on the hybrid image are more similar to Marilyn, the high frequency image while the colors are more similar to Einstein, the low frequency image. However, when we scale down the image, we can always see the shape of Einstein in the smallest image. 
+</p>
+
+<table border=1>
+<tr>
+<td>
+<img src="einstein.bmp" width="49%"/>
+<img src="marilyn.bmp"  width="49%"/>
+
+</td>
+</tr>
+
+<tr>
+<td>
+<img src="high_frequencies.jpg" width="49%"/>
+<img src="low_frequencies.jpg" width="49%"/>
+
+</td>
+</tr>
+
+
+
+
+</table>
+<img src="hybrid_image_scales.jpg" width="49%"/>
+<p>I exchange two images. Even though the hybrid image is still made with Einstein and Marilyn, the shape in the current hybrid image is more like Einstein but the colors are more similar to Marilyn.
+</p>
+</div>
+</body>
+</html>
